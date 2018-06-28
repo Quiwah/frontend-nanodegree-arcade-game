@@ -1,5 +1,5 @@
 # Cross the waves! aka frontend-nanodegree-arcade-game
-===============================
+
 This is the 3rd project of Udacity's [Front End Developer Nanodegree program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001)
 
 ## How to play

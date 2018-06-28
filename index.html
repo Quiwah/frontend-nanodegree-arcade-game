@@ -2,12 +2,38 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
+    <title>Cross+The+Waves!</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 </head>
 <body>
+    <div class="start">
+            <h1>Cross+The+Waves!</h1>
+            <h2>
+                <span id="life">3</span>
+                <span id="point">0</span>
+            </h2>
+    </div>
+    <div class="badnews modal">
+        <h2>Game Over</h2>
+        <p>
+            You couldn't finish the game...
+        </p>
+        <p>
+            <button onclick="closeModal()">Play again</button>
+        </p>
+    </div>
+    <div class="goodnews modal">
+        <h2>Congratulations!</h2>
+        <p>
+            You crossed the water 10 times!!
+        </p>
+        <p>
+            <button onclick="closeModal()">Play again</button>
+        </p>
+    </div>
     <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

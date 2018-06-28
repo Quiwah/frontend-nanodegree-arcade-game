@@ -1,3 +1,44 @@
 body {
     text-align: center;
+    background: #295;
+    overflow: hidden;
+    color: #eed;
+    font-family: 'Press Start 2P', cursive;
+}
+
+h1 {
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+canvas {
+    margin-top: -45px;
+}
+
+#life:before {
+ content: 'Life:';
+}
+
+#point:before {
+    content: 'Point:';
+}
+
+.modal {
+    position: fixed;
+    color: #295;
+    width: 50%;
+    height: 30%;
+    top: 20%;
+    left: 25%;
+    background-color: rgba(238, 238, 221, 0.815);
+    z-index: 2;
+    text-align: center;
+}
+
+.badnews,
+.goodnews {
+    display: none;
 }

@@ -1,10 +1,10 @@
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
- * render methods on your player and enemy objects (defined in your app.js).
+ * render methods on your ferry and obstacle objects (defined in your app.js).
  *
  * A game engine works by drawing the entire game screen over and over, kind of
- * like a flipbook you may have created as a kid. When your player moves across
+ * like a flipbook you may have created as a kid. When your ferry moves across
  * the screen, it may look like just that image/character is moving or being
  * drawn but that is not the case. What's really happening is the entire "scene"
  * is being drawn over and over, presenting the illusion of animation.
@@ -23,6 +23,8 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+        lives = 3;
+        currentPoint = 0;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -79,21 +81,20 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
-     * objects within your allEnemies array as defined in app.js and calls
+     * objects within your allObstacles array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
-     * player object. These update methods should focus purely on updating
+     * ferry object. These update methods should focus purely on updating
      * the data/properties related to the object. Do your drawing in your
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
+        allObstacles.forEach(function(Obstacle) {
+            Obstacle.update(dt);
         });
-        player.update();
+        ferry.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -107,14 +108,13 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/stone-block.png',   // Top row is stone
+                'images/water-block.png',   // Row 1 of 4 of water
+                'images/water-block.png',   // Row 2 of 4 of water
+                'images/water-block.png',   // Row 3 of 4 of water
+                'images/water-block.png'   // Row 4 of 4 of water
             ],
-            numRows = 6,
+            numRows = 5,
             numCols = 5,
             row, col;
         
@@ -125,6 +125,7 @@ var Engine = (function(global) {
          * and, using the rowImages array, draw the correct image for that
          * portion of the "grid"
          */
+        /* From top row to the 5th row */
         for (row = 0; row < numRows; row++) {
             for (col = 0; col < numCols; col++) {
                 /* The drawImage function of the canvas' context element
@@ -137,23 +138,32 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
+        /* The bottom row */
+        for (row = 5, col = 0; col < numCols; col++) {
+            /* greens */
+            for (col = 0; col < 5; col++) {
+                if(col === 2) continue;
+                ctx.drawImage(Resources.get('images/grass-block.png'), col * 101, row * 83);
+            }
+            /* water in the middle */
+            ctx.drawImage(Resources.get('images/water-block.png'), 2 * 101, row * 83);
+        }
         renderEntities();
     }
 
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
-     * on your enemy and player entities within app.js
+     * on your obstacle and ferry entities within app.js
      */
     function renderEntities() {
-        /* Loop through all of the objects within the allEnemies array and call
+        /* Loop through all of the objects within the allObstacles array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
+        allObstacles.forEach(function(Obstacle) {
+            Obstacle.render();
         });
 
-        player.render();
+        ferry.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -161,7 +171,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        //noop
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -172,8 +182,9 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/orca.png',
+        'images/seal.png',
+        'images/ferry.png'
     ]);
     Resources.onReady(init);
 
